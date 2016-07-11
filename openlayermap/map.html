@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="ol.css" type="text/css" rel="stylesheet">
+    <script src="http://openlayers.org/en/v3.14.2/build/ol.js"></script>
+</head>
+<body>
+<div id="map" class="map"></div>
+<script>
+    var url = 'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/';
+
+    var layers = [
+        new ol.layer.Tile({
+            source: new ol.source.MapQuest({layer: 'sat'})
+        })
+    ];
+    var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        view: new ol.View({
+            center: [0,0],
+            zoom: 4
+        })
+    });
+</script>
+</body>
+</html>

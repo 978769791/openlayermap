@@ -1,0 +1,88 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+ul li{
+    list-style-type: none;
+}
+.d{
+    z-index: 300;
+    position: absolute;
+    width: 220px;
+    height: 300px;
+    background-color: antiquewhite;
+    margin: 0 auto;
+}
+.d ul li{
+    font-size: 18px;
+    width: 73px;
+    float: left;
+    text-align: center;
+}
+.d ul .b{
+    position: relative;
+}
+.d ul .b .c{
+    position: absolute;
+    background-color:palevioletred;
+    display: none;
+}
+.dul .b .c ul li{
+    padding: 10px 0;
+    border-bottom: 1px solid black;
+}
+.d ul .b:hover .c{
+    display: block;
+}
+.Acer{
+    z-index: 300;
+    left: 100px;
+    width: 200px;
+    height: 200px;
+    background-color: antiquewhite;
+    position: absolute;
+    left: 300px;
+}
+.Acer ul li{
+    float: left;
+    font-size: 18px;text-align: center;
+    width: 100px;
+    background-color: aquamarine;
+}
+.Acer ul li:hover{
+    background-color: cadetblue;
+}
+.Acer .actual{
+    position:relative;
+}
+.Acer .actual:hover .acquire{
+    display: block;
+}
+.Acer .actual .acquire{
+    position: absolute;
+    display: none;
+}
+
+
+
+
+/*µØÍ¼*/
+a.skiplink {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+a.skiplink:focus {
+    clip: auto;
+    height: auto;
+    width: auto;
+    background-color: #fff;
+    padding: 0.3em;
+}
+#map:focus {
+    outline: #4A74A8 solid 0.15em;
+}

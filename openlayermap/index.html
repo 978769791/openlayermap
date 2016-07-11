@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="index.css" type="text/css" rel="stylesheet">
+    <link href="ol.css" type="text/css" rel="stylesheet">
+    <script src="http://openlayers.org/en/v3.14.2/build/ol.js"></script>
+</head>
+<body>
+
+<!--<div class="d">-->
+    <!--<ul>-->
+        <!--<li class="b">北京-->
+            <!--<div class="c">-->
+                <!--<ul>-->
+                    <!--<li>上海</li>-->
+                    <!--<li>田径</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+
+        <!--</li>-->
+        <!--<li class="b">河北-->
+            <!--<div class="c">-->
+                <!--<ul>-->
+                    <!--<li>石家庄</li>-->
+                    <!--<li>保定</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+
+
+        <!--</li>-->
+        <!--<li class="b">河南-->
+            <!--<div class="c">-->
+                <!--<ul>-->
+                    <!--<li>信阳</li>-->
+                    <!--<li>安阳</li>-->
+                <!--</ul>-->
+
+            <!--</div>-->
+        <!--</li>-->
+
+    <!--</ul>-->
+<!--</div>-->
+<!--<div class="Acer">-->
+    <!--<ul>-->
+        <!--<li>最大范围</li>-->
+        <!--<li class="actual">最小范围-->
+            <!--<div class="acquire">-->
+                <!--<ul>-->
+                    <!--<li>范围不大</li>-->
+                    <!--<li>范围不算大</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+
+        <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
+
+<div id="map" class="map" tabindex="0"></div>
+<input id="swipe" type="range" style="width: 100%">
+
+<script src="jquery-1.7.2.min.js"></script>
+<script>
+
+    var SanXiGaiHua = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+            url: 'http://182.48.115.230:8080/geoserver/sanminggaihua/wms',
+            params: {
+                'FORMAT': 'image/png',
+                'VERSION': '1.1.0',
+                LAYERS: 'sanminggaihua:SanXiGaiHua'
+            }
+        })
+    });
+
+    var osm = new ol.layer.Tile({
+        source: new ol.source.OSM()
+    });
+    var raster = new ol.layer.Tile({
+        source: new ol.source.MapQuest({layer: 'sat'})
+    });
+
+    var map = new ol.Map({
+        layers: [osm, SanXiGaiHua],
+        target: 'map',
+
+        controls: ol.control.defaults({
+            attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+                collapsible: false
+            })
+        }),
+        view: new ol.View({
+            center: ol.proj.transform([117.1761, 26.15], 'EPSG:4326', 'EPSG:3857'),
+            zoom: 10
+        })
+
+    });
+
+
+
+
+//    添加比例尺
+    map.addControl(new ol.control.ScaleLine());
+
+    var swipe = document.getElementById('swipe');
+
+    SanXiGaiHua.on('precompose', function(event) {
+        var ctx = event.context;
+        var width = ctx.canvas.width * (swipe.value / 100);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(width, 0, ctx.canvas.width - width, ctx.canvas.height);
+        ctx.clip();
+    });
+
+    SanXiGaiHua.on('postcompose', function(event) {
+        var ctx = event.context;
+        ctx.restore();
+    });
+
+    swipe.addEventListener('input', function() {
+        map.render();
+    }, false);
+
+
+
+//var osm = new ol.layer.Tile({
+//    source: new ol.source.OSM()
+//});
+//
+//var bing = new ol.layer.Tile({
+//    source: new ol.source.BingMaps({
+//        key: 'Your Bing Maps Key from http://www.bingmapsportal.com/ here',
+//        imagerySet: 'Aerial'
+//    })
+//});
+//
+////创建一个新地图
+//var map = new ol.Map({
+//    layers: [osm, bing],
+//    target: 'map',
+//    controls: ol.control.defaults({
+//        attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+//            collapsible: false
+//        })
+//    }),
+//
+////    创建一个坐标系
+//    view: new ol.View({
+////        地图的初始中心
+//        center: [0, 0],
+////        缩放的初始分辨率
+//        zoom: 2
+//    })
+//});
+//
+//var swipe = document.getElementById('swipe');
+//
+//bing.on('precompose', function(event) {
+//    var ctx = event.context;
+//    var width = ctx.canvas.width * (swipe.value / 100);
+//
+//    ctx.save();
+//    ctx.beginPath();
+//    ctx.rect(width, 0, ctx.canvas.width - width, ctx.canvas.height);
+//    ctx.clip();
+//});
+//
+//bing.on('postcompose', function(event) {
+//    var ctx = event.context;
+//    ctx.restore();
+//});
+//
+//swipe.addEventListener('input', function() {
+//    map.render();
+//}, false);
+
+</script>
+</body>
+</html>
